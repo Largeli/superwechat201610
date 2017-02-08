@@ -6,8 +6,9 @@ import android.os.Bundle;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.EasyUtils;
 
-import cn.ucai.superwechat.DemoHelper;
+import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.MFGT;
 
 /**
  * 开屏页
@@ -30,7 +31,7 @@ public class SplashActivity extends BaseActivity {
 
 		new Thread(new Runnable() {
 			public void run() {
-				if (DemoHelper.getInstance().isLoggedIn()) {
+				if (SuperWeChatHelper.getInstance().isLoggedIn()) {
 					// auto login mode, make sure all group and conversation is loaed before enter the main screen
 					long start = System.currentTimeMillis();
 					EMClient.getInstance().chatManager().loadAllConversations();
@@ -58,7 +59,7 @@ public class SplashActivity extends BaseActivity {
 						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 					}
-					startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
+					MFGT.gotoWelcome(SplashActivity.this);
 					finish();
 				}
 			}
