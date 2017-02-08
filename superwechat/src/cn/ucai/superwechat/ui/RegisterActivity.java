@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMError;
@@ -41,7 +43,7 @@ import cn.ucai.superwechat.utils.ResultUtils;
  * register screen
  */
 public class RegisterActivity extends BaseActivity {
-    private static final String TAG =  RegisterActivity.class.getSimpleName();
+    private static final String TAG = RegisterActivity.class.getSimpleName();
     @BindView(R.id.username)
     EditText mUsername;
     @BindView(R.id.et_userNick)
@@ -54,16 +56,25 @@ public class RegisterActivity extends BaseActivity {
     String pwd;
     String usernick;
     ProgressDialog pd;
+    @BindView(R.id.txt_title)
+    TextView txtTitle;
+    @BindView(R.id.img_back)
+    ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.em_activity_register);
         ButterKnife.bind(this);
+        imgBack.setVisibility(View.VISIBLE);
+        txtTitle.setVisibility(View.VISIBLE);
+        txtTitle.setText("注册");
     }
-    @OnClick({R.id.iv_back, R.id.btn_register})
+
+    @OnClick({R.id.img_back, R.id.btn_register})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
+            case R.id.img_back:
                 finish();
                 break;
             case R.id.btn_register:
@@ -117,19 +128,19 @@ public class RegisterActivity extends BaseActivity {
                         if (result.isRetMsg()) {
                             //注册成功后调用环信的注册
                             registerEMServer();
-                        }else {
+                        } else {
                             pd.dismiss();
                             if (result.getRetCode() == I.MSG_REGISTER_USERNAME_EXISTS) {
                                 CommonUtils.showLongToast(R.string.User_already_exists);
-                            }else {
-                               CommonUtils.showLongToast(R.string.Registration_failed);
+                            } else {
+                                CommonUtils.showLongToast(R.string.Registration_failed);
                             }
                         }
-                    }else {
+                    } else {
                         pd.dismiss();
                         CommonUtils.showLongToast(R.string.Registration_failed);
                     }
-                }else {
+                } else {
                     pd.dismiss();
                     CommonUtils.showLongToast(R.string.Registration_failed);
                 }
@@ -187,16 +198,17 @@ public class RegisterActivity extends BaseActivity {
 
         }).start();
     }
+
     private void unRegisterAppSever() {
         NetDao.unRegister(this, username, new OnCompleteListener<String>() {
             @Override
             public void onSuccess(String result) {
-                L.e(TAG,"result="+result);
+                L.e(TAG, "result=" + result);
             }
 
             @Override
             public void onError(String error) {
-                L.e(TAG,"error="+error);
+                L.e(TAG, "error=" + error);
             }
         });
     }
