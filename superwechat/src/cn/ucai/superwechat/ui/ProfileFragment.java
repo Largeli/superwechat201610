@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.MFGT;
 
 /**
  * settings screen
@@ -64,6 +65,7 @@ public class ProfileFragment extends Fragment {
 
     private void initData() {
         String username = EMClient.getInstance().getCurrentUser();
+        tvProfileUsername.setText("微信号："+username);
         EaseUserUtils.setAppUserNick(username, tvProfileNick);
         EaseUserUtils.setAppUserAvatar(getContext(), username, imgProfileAvatar);
     }
@@ -94,7 +96,18 @@ public class ProfileFragment extends Fragment {
                 RedPacketUtil.startChangeActivity(getActivity());
                 break;
             case R.id.tv_profile_setting:
+                MFGT.gotoSettings(getActivity());
                 break;
         }
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if(((MainActivity)getActivity()).isConflict){
+//            outState.putBoolean("isConflict", true);
+//        }else if(((MainActivity)getActivity()).getCurrentAccountRemoved()){
+//            outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
+//        }
+//    }
 }
