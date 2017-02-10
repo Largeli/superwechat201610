@@ -139,8 +139,8 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     private void initFragment() {
         conversationListFragment = new ConversationListFragment();
         contactListFragment = new ContactListFragment();
-        SettingsFragment settingFragment = new SettingsFragment();
-        fragments = new Fragment[]{conversationListFragment, contactListFragment, settingFragment};
+        ProfileFragment profileFragment = new ProfileFragment();
+        fragments = new Fragment[]{conversationListFragment, contactListFragment, profileFragment};
 
 		/*getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
                 .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         adpter.addFragment(conversationListFragment,"微信");
         adpter.addFragment(contactListFragment,"通讯录");
         adpter.addFragment(new DiscoverFragment(),"发现");
-        adpter.addFragment(settingFragment,"我");
+        adpter.addFragment(profileFragment,"我");
         layoutViewpage.setAdapter(adpter);
         layoutTabhost.setChecked(0);
         layoutTabhost.setOnCheckedChangeListener(this);
@@ -366,7 +366,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
-        layoutViewpage.setCurrentItem(checkedPosition);
+        layoutViewpage.setCurrentItem(checkedPosition,false);
     }
 
     public class MyContactListener implements EMContactListener {
