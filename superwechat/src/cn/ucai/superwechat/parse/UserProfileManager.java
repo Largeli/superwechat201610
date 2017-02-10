@@ -166,7 +166,7 @@ public class UserProfileManager {
 			}
 		});
 		L.e("UserProfileManager","asyncGetCurrentUserInfo,username="+EMClient.getInstance().getCurrentUser());
-		NetDao.findbyuser(activity, EMClient.getInstance().getCurrentUser(), new OnCompleteListener<String>() {
+		NetDao.getUserInfoByUsername(activity, EMClient.getInstance().getCurrentUser(), new OnCompleteListener<String>() {
 			@Override
 			public void onSuccess(String s) {
 				L.e(TAG,"s="+s);

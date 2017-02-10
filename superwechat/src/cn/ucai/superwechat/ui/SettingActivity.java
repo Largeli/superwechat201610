@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.hyphenate.util.EMLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.SuperWeChatModel;
@@ -44,14 +46,14 @@ import cn.ucai.superwechat.utils.PreferenceManager;
 
 /**
  * settings screen
- *
- *
  */
 @SuppressWarnings({"FieldCanBeLocal"})
 public class SettingActivity extends BaseActivity implements OnClickListener {
 
     @BindView(R.id.txt_title)
     TextView txtTitle;
+    @BindView(R.id.img_back)
+    ImageView imgBack;
     /**
      * new message notification
      */
@@ -123,7 +125,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText("我");
+        txtTitle.setText(R.string.set);
+        imgBack.setVisibility(View.VISIBLE);
         rl_switch_notification = (RelativeLayout) findViewById(R.id.rl_switch_notification);
         rl_switch_sound = (RelativeLayout) findViewById(R.id.rl_switch_sound);
         rl_switch_vibrate = (RelativeLayout) findViewById(R.id.rl_switch_vibrate);
@@ -429,7 +432,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                         pd.dismiss();
                         // show login screen
                         finish();
-                        MFGT.gotoLogin(SettingActivity.this);
+                        MFGT.gotoLoginCleanTask(SettingActivity.this);
                     }
                 });
             }
@@ -455,4 +458,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     }
 
 
+    @OnClick(R.id.img_back)
+    public void onClick() {
+        MFGT.finish(this);
+    }
 }

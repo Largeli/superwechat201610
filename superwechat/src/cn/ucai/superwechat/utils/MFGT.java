@@ -10,6 +10,7 @@ import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SettingActivity;
 import cn.ucai.superwechat.ui.SplashActivity;
+import cn.ucai.superwechat.ui.UserProfileActivity;
 import cn.ucai.superwechat.ui.WelcomeActivity;
 
 
@@ -35,6 +36,10 @@ public class MFGT {
     public static void gotoLogin(Context context){
         startActivity((Activity)context, LoginActivity.class);
     }
+    public static void gotoLoginCleanTask(Context context){
+        startActivity((Activity)context, new Intent(context,LoginActivity.class)
+        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
     public static void gotoRegister(Context context) {
         startActivity((Activity)context, RegisterActivity.class);
     }
@@ -46,6 +51,10 @@ public class MFGT {
 
     public static void gotoSettings(FragmentActivity activity) {
         startActivity(activity, SettingActivity.class);
+    }
+
+    public static void gotoUserProfile(FragmentActivity activity) {
+        startActivity(activity, UserProfileActivity.class);
     }
 }
 
