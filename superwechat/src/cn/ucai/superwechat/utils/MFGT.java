@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.hyphenate.easeui.domain.User;
 
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.AddContactActivity;
+import cn.ucai.superwechat.ui.DetailsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SettingActivity;
@@ -63,8 +65,9 @@ public class MFGT {
         startActivity(activity, AddContactActivity.class);
     }
 
-    public static void gotoFirent(AddContactActivity activity, User user) {
-
+    public static void gotoDetails(Context context , User user){
+        startActivity((Activity)context, new Intent(context,DetailsActivity.class)
+                .putExtra(I.User.USER_NAME,user));
     }
 }
 
