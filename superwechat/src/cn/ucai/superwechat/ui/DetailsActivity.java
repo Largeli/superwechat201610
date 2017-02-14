@@ -1,7 +1,6 @@
 package cn.ucai.superwechat.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MFGT;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends BaseActivity {
 
     @BindView(R.id.img_back)
     ImageView imgBack;
@@ -39,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
     Button btnSendVideo;
 
     User user = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
         if (user != null) {
             showUserInfo();
-        }else {
+        } else {
             L.e("Finish.....");
             MFGT.finish(this);
         }
@@ -62,28 +62,33 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void showUserInfo() {
         tvUserinfoNick.setText(user.getMUserNick());
-        EaseUserUtils.setAppUserAvatarByPath(this,user.getAvatar(),profileImage);
-        tvUserinfoName.setText("微信号"+user.getMUserName());
-        if(isFirent()) {
+        EaseUserUtils.setAppUserAvatarByPath(this, user.getAvatar(), profileImage);
+        tvUserinfoName.setText("微信号" + user.getMUserName());
+        if (isFirent()) {
             btnSendMsg.setVisibility(View.VISIBLE);
             btnSendVideo.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             btnAddContact.setVisibility(View.VISIBLE);
         }
     }
 
-    private boolean isFirent(){
+    private boolean isFirent() {
         User u = SuperWeChatHelper.getInstance().getAppContactList().get(user);
         if (u == null) {
             return false;
-        }else {
+        } else {
             SuperWeChatHelper.getInstance().saveAppContact(user);
             return true;
         }
     }
 
     @OnClick(R.id.img_back)
-    public void onClick() {
+    public void imgBack() {
         MFGT.finish(this);
+    }
+
+    @OnClick(R.id.btn_add_contact)
+    public void sendAddContactMsg() {
+        MFGT.gotoValidate(this,user.getMUserName());
     }
 }

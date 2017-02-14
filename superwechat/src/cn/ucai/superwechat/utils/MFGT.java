@@ -16,6 +16,7 @@ import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SettingActivity;
 import cn.ucai.superwechat.ui.SplashActivity;
 import cn.ucai.superwechat.ui.UserProfileActivity;
+import cn.ucai.superwechat.ui.ValidateActivity;
 import cn.ucai.superwechat.ui.WelcomeActivity;
 
 
@@ -68,6 +69,11 @@ public class MFGT {
     public static void gotoDetails(Context context , User user){
         startActivity((Activity)context, new Intent(context,DetailsActivity.class)
                 .putExtra(I.User.USER_NAME,user));
+    }
+
+    public static void gotoValidate(DetailsActivity activity, String userName) {
+        startActivity(activity,new Intent(activity, ValidateActivity.class)
+        .putExtra(I.User.USER_NAME,userName));
     }
 }
 
