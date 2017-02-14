@@ -715,33 +715,6 @@ public class SuperWeChatHelper {
                 }
             }
             // save invitation as message
-            NetDao.getUserInfoByUsername(appContext, username, new OnCompleteListener<String>() {
-                @Override
-                public void onSuccess(String s) {
-                    InviteMessage msg = new InviteMessage();
-                    msg.setFrom(username);
-                    msg.setTime(System.currentTimeMillis());
-                    Log.d(TAG, username + "accept your request");
-                    msg.setStatus(InviteMessage.InviteMesageStatus.BEAGREED);
-                    if (s != null) {
-                        Result result = ResultUtils.getResultFromJson(s, User.class);
-                        if (result != null) {
-                            if (result.isRetMsg()) {
-                                User user = (User) result.getRetData();
-                                if (user != null) {
-                                    msg.setUsernick(user.getMUserNick());
-                                    msg.setAvatarSuffix(user.getMAvatarSuffix());
-                                    msg.setAvatarTime(user.getMAvatarLastUpdateTime());
-                                }
-                            }
-                        }
-                    }
-                    notifyNewInviteMessage(msg);
-                    broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
-                }
-
-                @Override
-                public void onError(String error) {
                     InviteMessage msg = new InviteMessage();
                     msg.setFrom(username);
                     msg.setTime(System.currentTimeMillis());
@@ -750,26 +723,48 @@ public class SuperWeChatHelper {
                     notifyNewInviteMessage(msg);
                     broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
                 }
-            });
-
-        }
 
         @Override
         public void onFriendRequestDeclined(String username) {
-            // your request was refused
             Log.d(username, username + " refused to your request");
         }
     }
+
+
     
     /**
      * save and notify invitation message
      * @param msg
      */
-    private void notifyNewInviteMessage(InviteMessage msg){
+    private void notifyNewInviteMessage(final InviteMessage msg){
         if(inviteMessgeDao == null){
             inviteMessgeDao = new InviteMessgeDao(appContext);
         }
-        inviteMessgeDao.saveMessage(msg);
+        NetDao.getUserInfoByUsername(appContext, msg.getFrom(), new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null) {
+                        if (result.isRetMsg()) {
+                            User user = (User) result.getRetData();
+                            if (user != null) {
+                                msg.setUsernick(user.getMUserNick());
+                                msg.setAvatarSuffix(user.getMAvatarSuffix());
+                                msg.setAvatarTime(user.getMAvatarLastUpdateTime());
+                            }
+                        }
+                    }
+                }
+                inviteMessgeDao.saveMessage(msg);
+            }
+
+            @Override
+            public void onError(String error) {
+                inviteMessgeDao.saveMessage(msg);
+            }
+        });
+
         //increase the unread message count
         inviteMessgeDao.saveUnreadMessageCount(1);
         // notify there is new message

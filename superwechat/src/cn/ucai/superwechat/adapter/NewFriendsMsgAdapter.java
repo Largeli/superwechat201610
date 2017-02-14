@@ -59,7 +59,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			holder.reason = (TextView) convertView.findViewById(R.id.message);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.agree = (Button) convertView.findViewById(R.id.agree);
-			holder.status = (Button) convertView.findViewById(R.id.user_state);
+			holder.status = (TextView) convertView.findViewById(R.id.user_state);
 			holder.groupContainer = (LinearLayout) convertView.findViewById(R.id.ll_group);
 			holder.groupname = (TextView) convertView.findViewById(R.id.tv_groupName);
 			// holder.time = (TextView) convertView.findViewById(R.id.time);
@@ -171,7 +171,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	 * @param
 	 * @param
 	 */
-	private void acceptInvitation(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
+	private void acceptInvitation(final Button buttonAgree, final TextView buttonRefuse, final InviteMessage msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
 		String str1 = context.getResources().getString(R.string.Are_agree_with);
 		final String str2 = context.getResources().getString(R.string.Has_agreed_to);
@@ -229,7 +229,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
      * @param
      * @param
      */
-    private void refuseInvitation(final Button buttonAgree, final Button buttonRefuse, final InviteMessage msg) {
+    private void refuseInvitation(final Button buttonAgree, final TextView buttonRefuse, final InviteMessage msg) {
         final ProgressDialog pd = new ProgressDialog(context);
         String str1 = context.getResources().getString(R.string.Are_refuse_with);
         final String str2 = context.getResources().getString(R.string.Has_refused_to);
@@ -286,7 +286,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		TextView name;
 		TextView reason;
         Button agree;
-		Button status;
+		TextView status;
 		LinearLayout groupContainer;
 		TextView groupname;
 		// TextView time;
