@@ -37,6 +37,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
+import cn.ucai.superwechat.utils.MFGT;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
@@ -55,6 +56,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = View.inflate(context, R.layout.em_row_invite_msg, null);
+			holder.layoutinvite = (LinearLayout) convertView.findViewById(R.id.layout_invite);
 			holder.avator = (ImageView) convertView.findViewById(R.id.avatar);
 			holder.reason = (TextView) convertView.findViewById(R.id.message);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
@@ -160,6 +162,12 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
                 holder.status.setBackgroundDrawable(null);
                 holder.status.setEnabled(false);
             }
+			holder.layoutinvite.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					MFGT.gotoDetails(context,msg.getFrom());
+				}
+			});
 		}
 
 		return convertView;
@@ -282,6 +290,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
     }
 
 	private static class ViewHolder {
+		LinearLayout layoutinvite;
 		ImageView avator;
 		TextView name;
 		TextView reason;

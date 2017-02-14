@@ -15,8 +15,11 @@ import butterknife.OnClick;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatHelper;
-import cn.ucai.superwechat.utils.L;
+import cn.ucai.superwechat.domain.Result;
+import cn.ucai.superwechat.net.NetDao;
+import cn.ucai.superwechat.net.OnCompleteListener;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 public class DetailsActivity extends BaseActivity {
 
@@ -51,13 +54,44 @@ public class DetailsActivity extends BaseActivity {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText("详细资料");
-        user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
+        user = (User) getIntent().getSerializableExtra(I.User.TABLE_NAME);
         if (user != null) {
             showUserInfo();
         } else {
-            L.e("Finish.....");
-            MFGT.finish(this);
+          //  L.e("Finish.....");
+            String username = getIntent().getStringExtra(I.User.USER_NAME);
+            if (username == null) {
+                MFGT.finish(this);
+            }else {
+                sycUserInfo(username);
+            }
+
         }
+    }
+
+    private void sycUserInfo(String username) {
+        NetDao.getUserInfoByUsername(this, username, new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null) {
+                        if (result.isRetMsg()) {
+                            User u = (User) result.getRetData();
+                            if (u != null) {
+                                user = u;
+                                showUserInfo();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     private void showUserInfo() {

@@ -68,9 +68,12 @@ public class MFGT {
 
     public static void gotoDetails(Context context , User user){
         startActivity((Activity)context, new Intent(context,DetailsActivity.class)
-                .putExtra(I.User.USER_NAME,user));
+                .putExtra(I.User.TABLE_NAME,user));
     }
-
+    public static void gotoDetails(Context context , String username){
+        startActivity((Activity)context, new Intent(context,DetailsActivity.class)
+                .putExtra(I.User.USER_NAME,username));
+    }
     public static void gotoValidate(DetailsActivity activity, String userName) {
         startActivity(activity,new Intent(activity, ValidateActivity.class)
         .putExtra(I.User.USER_NAME,userName));
