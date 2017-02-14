@@ -187,6 +187,9 @@ public class DemoDBManager {
             values.put(InviteMessgeDao.COLUMN_NAME_FROM, message.getFrom());
             values.put(InviteMessgeDao.COLUMN_NAME_GROUP_ID, message.getGroupId());
             values.put(InviteMessgeDao.COLUMN_NAME_GROUP_Name, message.getGroupName());
+            values.put(InviteMessgeDao.COLUMN_NAME_NICKNAME, message.getUsernick());
+            values.put(InviteMessgeDao.COLUMN_NAME_AVATAR_SUFFIX, message.getAvatarSuffix());
+            values.put(InviteMessgeDao.COLUMN_NAME_AVATAR_TIME, message.getAvatarTime());
             values.put(InviteMessgeDao.COLUMN_NAME_REASON, message.getReason());
             values.put(InviteMessgeDao.COLUMN_NAME_TIME, message.getTime());
             values.put(InviteMessgeDao.COLUMN_NAME_STATUS, message.getStatus().ordinal());
@@ -231,6 +234,9 @@ public class DemoDBManager {
                 String groupid = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_GROUP_ID));
                 String groupname = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_GROUP_Name));
                 String reason = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_REASON));
+                String usernick = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_NICKNAME));
+                String avatarSuffix = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_AVATAR_SUFFIX));
+                String avatarTiem = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_AVATAR_TIME));
                 long time = cursor.getLong(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_TIME));
                 int status = cursor.getInt(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_STATUS));
                 String groupInviter = cursor.getString(cursor.getColumnIndex(InviteMessgeDao.COLUMN_NAME_GROUPINVITER));
@@ -242,7 +248,9 @@ public class DemoDBManager {
                 msg.setReason(reason);
                 msg.setTime(time);
                 msg.setGroupInviter(groupInviter);
-                
+                msg.setUsernick(usernick);
+                msg.setAvatarSuffix(avatarSuffix);
+                msg.setAvatarTime(avatarTiem);
                 if(status == InviteMesageStatus.BEINVITEED.ordinal())
                     msg.setStatus(InviteMesageStatus.BEINVITEED);
                 else if(status == InviteMesageStatus.BEAGREED.ordinal())
