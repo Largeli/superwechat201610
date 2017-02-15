@@ -13,6 +13,7 @@ import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.DetailsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
+import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SettingActivity;
 import cn.ucai.superwechat.ui.SplashActivity;
@@ -84,6 +85,10 @@ public class MFGT {
         startActivity(activity,new Intent(activity, ChatActivity.class)
                 .putExtra("userId", username));
 
+    }
+    public static void gotoMain(Activity activity){
+        startActivity(activity,new Intent(activity,MainActivity.class)
+        .putExtra(I.BACK_MAIN_FROM_CHAT,true));
     }
 }
 
