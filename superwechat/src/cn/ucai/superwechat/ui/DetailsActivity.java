@@ -125,4 +125,8 @@ public class DetailsActivity extends BaseActivity {
     public void sendAddContactMsg() {
         MFGT.gotoValidate(this,user.getMUserName());
     }
+    @OnClick(R.id.btn_send_msg)
+    public void sendMsg() {
+        MFGT.gotoChat(this,user.getMUserName());
+    }
 }

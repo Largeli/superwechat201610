@@ -10,6 +10,7 @@ import com.hyphenate.easeui.domain.User;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.AddContactActivity;
+import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.DetailsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -77,6 +78,12 @@ public class MFGT {
     public static void gotoValidate(DetailsActivity activity, String userName) {
         startActivity(activity,new Intent(activity, ValidateActivity.class)
         .putExtra(I.User.USER_NAME,userName));
+    }
+
+    public static void gotoChat(Activity activity, String username) {
+        startActivity(activity,new Intent(activity, ChatActivity.class)
+                .putExtra("userId", username));
+
     }
 }
 
