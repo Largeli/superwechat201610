@@ -107,7 +107,7 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private boolean isFirent() {
-        User u = SuperWeChatHelper.getInstance().getAppContactList().get(user);
+        User u = SuperWeChatHelper.getInstance().getAppContactList().get(user.getMUserName());
         if (u == null) {
             return false;
         } else {
