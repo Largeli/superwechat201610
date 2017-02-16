@@ -19,6 +19,7 @@ import cn.ucai.superwechat.ui.SettingActivity;
 import cn.ucai.superwechat.ui.SplashActivity;
 import cn.ucai.superwechat.ui.UserProfileActivity;
 import cn.ucai.superwechat.ui.ValidateActivity;
+import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.WelcomeActivity;
 
 
@@ -89,6 +90,11 @@ public class MFGT {
     public static void gotoMain(Activity activity){
         startActivity(activity,new Intent(activity,MainActivity.class)
         .putExtra(I.BACK_MAIN_FROM_CHAT,true));
+    }
+
+    public static void gotoVideo(DetailsActivity activity, String mUserName) {
+        startActivity(activity,new Intent(activity, VideoCallActivity.class).putExtra("username", mUserName)
+                .putExtra("isComingCall", false));
     }
 }
 

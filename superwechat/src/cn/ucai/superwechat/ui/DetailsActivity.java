@@ -129,4 +129,8 @@ public class DetailsActivity extends BaseActivity {
     public void sendMsg() {
         MFGT.gotoChat(this,user.getMUserName());
     }
+    @OnClick(R.id.btn_send_video)
+    public void sendVideo() {
+        MFGT.gotoVideo(this,user.getMUserName());
+    }
 }
