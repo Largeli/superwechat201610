@@ -153,6 +153,7 @@ public class NewGroupActivity extends BaseActivity {
                 final String groupName = groupNameEditText.getText().toString().trim();
                 String desc = introductionEditText.getText().toString();
                 String[] members = data.getStringArrayExtra("newmembers");
+                L.e(TAG,"members = "+members);
                 try {
                     EMGroupOptions option = new EMGroupOptions();
                     option.maxUsers = 200;
@@ -166,14 +167,9 @@ public class NewGroupActivity extends BaseActivity {
                         option.style = memberCheckbox.isChecked() ? EMGroupStyle.EMGroupStylePrivateMemberCanInvite : EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
                     }
                     EMGroup group = EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
-                    creatAppGroup(group);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressDialog.dismiss();
-                            setResult(RESULT_OK);
-                            finish();
-                        }
-                    });
+                    String hxid = group.getGroupId();
+                    creatAppGroup(group,members);
+
                 } catch (final HyphenateException e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -188,7 +184,7 @@ public class NewGroupActivity extends BaseActivity {
 
         }).start();
     }
-    private void creatAppGroup(EMGroup group) {
+    private void creatAppGroup(final EMGroup group,final  String[] members) {
         NetDao.creatGroup(this, group, file, new OnCompleteListener<String>() {
             @Override
             public void onSuccess(String s) {
@@ -197,7 +193,11 @@ public class NewGroupActivity extends BaseActivity {
                     Result result = ResultUtils.getResultFromJson(s, Group.class);
                     if (result != null) {
                         if (result.isRetMsg()) {
-                            creatGorupSuccess();
+                            if (members!=null&&members.length>0) {
+                                addgroupMembers(group.getGroupId(),members);
+                            }else {
+                                creatGorupSuccess();
+                            }
                         } else {
                             progressDialog.dismiss();
                             if (result.getRetCode() == MSG_GROUP_HXID_EXISTS) {
@@ -219,9 +219,16 @@ public class NewGroupActivity extends BaseActivity {
     }
 
     private void creatGorupSuccess() {
-        progressDialog.dismiss();
-        setResult(RESULT_OK);
-        finish();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                progressDialog.dismiss();}
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+
     }
 
     public void back(View view) {
@@ -290,5 +297,44 @@ public class NewGroupActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void addgroupMembers(String hxid,String[] members){
+        NetDao.addGroupMebers(this,getGroupMemebers(members),hxid , new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.e("addGroupMeberCount","s="+s);
+                boolean success = false;
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s,Group.class);
+                    if (result != null && result.isRetMsg()) {
+                        success = true;
+                        creatGorupSuccess();
+                    }
+                }
+                if (!success) {
+                    progressDialog.dismiss();
+                    CommonUtils.showLongToast(R.string.Failed_to_create_groups);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                progressDialog.dismiss();
+                L.e(TAG,"error="+error);
+                CommonUtils.showLongToast(R.string.Failed_to_create_groups);
+            }
+        });
+    }
+
+    private String getGroupMemebers(String[] members) {
+        String membersStr = "";
+        if (members.length > 0) {
+            for (String s : members) {
+                membersStr+=s+",";
+            }
+        }
+        L.e(TAG,"getGroupMemebers,s="+membersStr);
+        return null;
     }
 }
