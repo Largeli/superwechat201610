@@ -133,7 +133,7 @@ public class UserDao {
 	 * @param username
 	 */
 	public void deleteAppContact(String username){
-		DemoDBManager.getInstance().deleteContact(username);
+		DemoDBManager.getInstance().deleteAppContact(username);
 	}
 
 	/**

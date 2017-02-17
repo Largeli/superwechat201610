@@ -243,8 +243,8 @@ public class ContactListFragment extends EaseContactListFragment {
                             Result result = ResultUtils.getResultFromJson(s,User.class);
                             if (result != null &&result.isRetMsg()){
                                 UserDao dao = new UserDao(getActivity());
-                                dao.deleteContact(tobeDeleteUser.getMUserName());
                                 SuperWeChatHelper.getInstance().getAppContactList().remove(tobeDeleteUser.getMUserName());
+                                dao.deleteAppContact(tobeDeleteUser.getMUserName());
 //                                getActivity().runOnUiThread(new Runnable() {
 //                                    public void run() {
 //                                        pd.dismiss();
