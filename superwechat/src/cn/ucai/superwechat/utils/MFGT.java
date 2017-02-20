@@ -3,8 +3,8 @@ package cn.ucai.superwechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
 
 import cn.ucai.superwechat.I;
@@ -58,11 +58,11 @@ public class MFGT {
     }
 
 
-    public static void gotoSettings(FragmentActivity activity) {
+    public static void gotoSettings(Activity activity) {
         startActivity(activity, SettingActivity.class);
     }
 
-    public static void gotoUserProfile(FragmentActivity activity) {
+    public static void gotoUserProfile(Activity activity) {
         startActivity(activity, UserProfileActivity.class);
     }
     public static void gotoAddContact(Activity activity){
@@ -73,9 +73,13 @@ public class MFGT {
         startActivity((Activity)context, new Intent(context,DetailsActivity.class)
                 .putExtra(I.User.TABLE_NAME,user));
     }
-    public static void gotoDetails(Context context , String username){
-        startActivity((Activity)context, new Intent(context,DetailsActivity.class)
-                .putExtra(I.User.USER_NAME,username));
+    public static void gotoDetails(Activity activity , String username){
+        if (username.equals(EMClient.getInstance().getCurrentUser())) {
+            gotoUserProfile(activity);
+        }else {
+            startActivity(activity, new Intent(activity,DetailsActivity.class)
+                    .putExtra(I.User.USER_NAME,username));
+        }
     }
     public static void gotoValidate(DetailsActivity activity, String userName) {
         startActivity(activity,new Intent(activity, ValidateActivity.class)
