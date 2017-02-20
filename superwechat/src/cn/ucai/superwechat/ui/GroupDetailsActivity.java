@@ -397,7 +397,16 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 			}
 		}).start();
 	}
-
+	private String getGroupMemebers(String[] members) {
+		String membersStr = "";
+		if (members.length > 0) {
+			for (String s : members) {
+				membersStr+=s+",";
+			}
+		}
+		L.e(TAG,"getGroupMemebers,s="+membersStr);
+		return membersStr;
+	}
 	/**
 	 * 增加群成员
 	 * 
@@ -405,6 +414,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 */
 	private void addMembersToGroup(final String[] newmembers) {
 		final String st6 = getResources().getString(R.string.Add_group_members_fail);
+		NetDao.addGroupMebers(getContext(), getGroupMemebers(newmembers), groupId,
+				new OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						L.e(TAG,"addMembersToGroup,s ="+s);
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
 		new Thread(new Runnable() {
 			
 			public void run() {

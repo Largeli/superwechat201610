@@ -335,6 +335,6 @@ public class NewGroupActivity extends BaseActivity {
             }
         }
         L.e(TAG,"getGroupMemebers,s="+membersStr);
-        return null;
+        return membersStr;
     }
 }
