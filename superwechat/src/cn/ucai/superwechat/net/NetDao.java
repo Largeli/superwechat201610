@@ -127,4 +127,13 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(listener);
     }
+    public static void updateGroupName(Context context,String hxid,String username,
+                                       OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_GROUP_NAME)
+                .addParam(I.Group.HX_ID,hxid)
+                .addParam(I.Group.NAME,username)
+                .targetClass(String.class)
+                .execute(listener);
+    }
 }
