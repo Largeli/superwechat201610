@@ -96,7 +96,7 @@ public class DetailsActivity extends BaseActivity {
 
     private void showUserInfo() {
         tvUserinfoNick.setText(user.getMUserNick());
-        EaseUserUtils.setAppUserAvatarByPath(this, user.getAvatar(), profileImage);
+        EaseUserUtils.setAppUserAvatarByPath(this, user.getAvatar(), profileImage,null);
         tvUserinfoName.setText("微信号" + user.getMUserName());
         if (isFirent()) {
             btnSendMsg.setVisibility(View.VISIBLE);
