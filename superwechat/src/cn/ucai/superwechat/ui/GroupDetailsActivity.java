@@ -53,6 +53,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.net.NetDao;
+import cn.ucai.superwechat.net.OnCompleteListener;
+import cn.ucai.superwechat.utils.L;
+import cn.ucai.superwechat.utils.MFGT;
+
+import static com.baidu.mapapi.BMapManager.getContext;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = "GroupDetailsActivity";
@@ -324,6 +330,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 */
 	private void exitGrop() {
 		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
+		NetDao.removeGroupMember(getContext(), groupId, EMClient.getInstance().getCurrentUser(),
+				new OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						L.e(TAG,"exitGrop,S="+s);
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -705,7 +723,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							deleteMembersFromGroup(username);
 						} else {
 							// 正常情况下点击user，可以进入用户详情或者聊天页面等等
-
+							MFGT.gotoDetails(GroupDetailsActivity.this,username);
 						}
 					}
 
@@ -719,6 +737,18 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 						deleteDialog.setMessage(st13);
 						deleteDialog.setCanceledOnTouchOutside(false);
 						deleteDialog.show();
+						NetDao.removeGroupMember(getContext(), groupId, username,
+								new OnCompleteListener<String>() {
+									@Override
+									public void onSuccess(String s) {
+										L.e(TAG,"deleteMembersFromGroup,S="+s);
+									}
+
+									@Override
+									public void onError(String error) {
+
+									}
+								});
 						new Thread(new Runnable() {
 
 							@Override
